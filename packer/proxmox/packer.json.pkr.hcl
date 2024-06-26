@@ -42,7 +42,6 @@ source "proxmox-iso" "windows" {
   network_adapters {
     bridge = "vmbr0"
     model  = "virtio"
-    vlan_tag = "10"
   }
   node                 = "${var.proxmox_node}"
   os                   = "${var.os}"
