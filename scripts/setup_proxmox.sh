@@ -41,9 +41,9 @@ download_cloudbase_init() {
   wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi || error_exit "Failed to download Cloudbase-Init MSI."
 }
 
-# Function to download ISO files on Proxmox server
-download_iso_files_proxmox() {
-  echo "Downloading ISO files on Proxmox server..."
+# Function to download all ISO files on Proxmox server
+download_all_iso_files_proxmox() {
+  echo "Downloading all ISO files on Proxmox server..."
   ssh root@192.168.10.20 << 'EOF'
 cd /var/lib/vz/template/iso/ || exit 1
 nohup wget -O virtio-win.iso https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso &
@@ -52,6 +52,20 @@ nohup wget -O windows_server_2019.iso https://software-static.download.prss.micr
 EOF
   # Wait for downloads to complete
   echo "Waiting for ISO downloads to complete..."
+  sleep 60
+}
+
+# Function to download a specific ISO file on Proxmox server
+download_specific_iso_file_proxmox() {
+  local iso_url=$1
+  local iso_name=$2
+  echo "Downloading ${iso_name} on Proxmox server..."
+  ssh root@192.168.10.20 << EOF
+cd /var/lib/vz/template/iso/ || exit 1
+nohup wget -O ${iso_name} ${iso_url} &
+EOF
+  # Wait for downloads to complete
+  echo "Waiting for ${iso_name} download to complete..."
   sleep 60
 }
 
@@ -78,7 +92,26 @@ pveum acl modify / -user 'infra_as_code@pve' -role Packer
 EOF
 }
 
-# Display menu
+# Submenu for downloading specific ISO files
+download_iso_files_proxmox_menu() {
+  echo "Choose an ISO to download on Proxmox server:"
+  echo "1) Download all ISO files"
+  echo "2) Download Virtio ISO"
+  echo "3) Download Windows 10 ISO"
+  echo "4) Download Windows Server 2019 ISO"
+  echo "5) Back to main menu"
+  read -p "Enter choice [1-5]: " sub_choice
+  case $sub_choice in
+    1) download_all_iso_files_proxmox ;;
+    2) download_specific_iso_file_proxmox "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso" "virtio-win.iso" ;;
+    3) download_specific_iso_file_proxmox "https://software-static.download.prss.microsoft.com/dbazure/988969d5-f34g-4e03-ac9d-1f9786c66750/19045.2006.220908-0225.22h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso" "windows10.iso" ;;
+    4) download_specific_iso_file_proxmox "https://software-static.download.prss.microsoft.com/dbazure/988969d5-f34g-4e03-ac9d-1f9786c66749/17763.3650.221105-1748.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso" "windows_server_2019.iso" ;;
+    5) show_menu ;;
+    *) echo "Invalid choice!"; download_iso_files_proxmox_menu ;;
+  esac
+}
+
+# Display main menu
 show_menu() {
   echo "Choose an option:"
   echo "1) Update and upgrade the system"
@@ -91,18 +124,18 @@ show_menu() {
   echo "8) SCP files to Proxmox server"
   echo "9) Setup Proxmox user and roles"
   echo "10) Exit"
-  read -p "Enter choice [1-11]: " choice
+  read -p "Enter choice [1-10]: " choice
   case $choice in
     1) update_system ;;
     2) create_venv ;;
     3) install_ansible ;;
     4) install_packer_terraform ;;
     5) download_cloudbase_init ;;
-    6) download_iso_files_proxmox ;;
+    6) download_iso_files_proxmox_menu ;;
     7) build_proxmox_iso ;;
     8) scp_files_to_proxmox ;;
     9) setup_proxmox_user ;;
-   10) exit 0 ;;
+    10) exit 0 ;;
     *) echo "Invalid choice!"; show_menu ;;
   esac
 }
