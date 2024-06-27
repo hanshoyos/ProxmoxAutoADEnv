@@ -13,7 +13,7 @@ trap 'handle_error $LINENO' ERR
 # Part 1: Update and upgrade the system
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y git gpg vim tmux curl gnupg software-properties-common mkisofs python3-venv
-# removed python3-pip from intstall... intstalling ansible with apt instead.
+
 
 # PROJECT SETUP
 mkdir -p /root/GitProject
