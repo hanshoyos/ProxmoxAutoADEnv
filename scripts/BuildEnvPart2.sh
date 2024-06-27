@@ -17,7 +17,7 @@ source /root/GitProject/ProxmoxAutoADEnv/venv/bin/activate
 python3 -m pip install --upgrade pip
 python3 -m pip install ansible-core==2.12.6 pywinrm
 
-#/root/GitProject/ProxmoxAutoADEnv/scripts/Ansible-Install.sh
+source /root/GitProject/ProxmoxAutoADEnv/scripts/Ansible-Install.sh
 
 # Part 3: PACKER & TERRAFORM
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
