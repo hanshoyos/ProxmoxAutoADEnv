@@ -15,13 +15,6 @@ update_system() {
   sudo apt install -y git gpg vim tmux curl gnupg software-properties-common mkisofs python3-venv || error_exit "Failed to install required packages."
 }
 
-# Function to setup the project
-setup_project() {
-  echo "Setting up project directory and cloning repository..."
-  cd /root
-  git clone https://github.com/hanshoyos/ProxmoxAutoADEnv.git || error_exit "Failed to clone repository."
-}
-
 # Function to create and activate Python virtual environment
 create_venv() {
   echo "Creating and activating Python virtual environment..."
@@ -89,29 +82,27 @@ EOF
 show_menu() {
   echo "Choose an option:"
   echo "1) Update and upgrade the system"
-  echo "2) Setup project"
-  echo "3) Create and activate Python virtual environment"
-  echo "4) Install Ansible"
-  echo "5) Install Packer and Terraform"
-  echo "6) Download Cloudbase-Init MSI"
-  echo "7) Download ISO files on Proxmox server"
-  echo "8) Build Proxmox ISO"
-  echo "9) SCP files to Proxmox server"
-  echo "10) Setup Proxmox user and roles"
-  echo "11) Exit"
+  echo "2) Create and activate Python virtual environment"
+  echo "3) Install Ansible"
+  echo "4) Install Packer and Terraform"
+  echo "5) Download Cloudbase-Init MSI"
+  echo "6) Download ISO files on Proxmox server"
+  echo "7) Build Proxmox ISO"
+  echo "8) SCP files to Proxmox server"
+  echo "9) Setup Proxmox user and roles"
+  echo "10) Exit"
   read -p "Enter choice [1-11]: " choice
   case $choice in
     1) update_system ;;
-    2) setup_project ;;
-    3) create_venv ;;
-    4) install_ansible ;;
-    5) install_packer_terraform ;;
-    6) download_cloudbase_init ;;
-    7) download_iso_files_proxmox ;;
-    8) build_proxmox_iso ;;
-    9) scp_files_to_proxmox ;;
-    10) setup_proxmox_user ;;
-    11) exit 0 ;;
+    2) create_venv ;;
+    3) install_ansible ;;
+    4) install_packer_terraform ;;
+    5) download_cloudbase_init ;;
+    6) download_iso_files_proxmox ;;
+    7) build_proxmox_iso ;;
+    8) scp_files_to_proxmox ;;
+    9) setup_proxmox_user ;;
+   10) exit 0 ;;
     *) echo "Invalid choice!"; show_menu ;;
   esac
 }
