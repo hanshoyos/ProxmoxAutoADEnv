@@ -147,7 +147,7 @@ show_menu() {
   esac
 }
 
-# Show the menu until the user exits
+# Show the main menu until the user exits
 while true; do
   show_menu
 done
