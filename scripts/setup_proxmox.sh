@@ -18,34 +18,33 @@ update_system() {
 # Function to setup the project
 setup_project() {
   echo "Setting up project directory and cloning repository..."
-  mkdir -p /root/GitProject
-  cd /root/GitProject
+  cd /root
   git clone https://github.com/hanshoyos/ProxmoxAutoADEnv.git || error_exit "Failed to clone repository."
 }
 
 # Function to create and activate Python virtual environment
 create_venv() {
   echo "Creating and activating Python virtual environment..."
-  python3 -m venv /root/GitProject/ProxmoxAutoADEnv/venv || error_exit "Failed to create Python virtual environment."
-  source /root/GitProject/ProxmoxAutoADEnv/venv/bin/activate || error_exit "Failed to activate Python virtual environment."
+  python3 -m venv /root/ProxmoxAutoADEnv/venv || error_exit "Failed to create Python virtual environment."
+  source /root/ProxmoxAutoADEnv/venv/bin/activate || error_exit "Failed to activate Python virtual environment."
 }
 
 # Function to install Ansible
 install_ansible() {
   echo "Installing Ansible..."
-  source /root/GitProject/ProxmoxAutoADEnv/scripts/Ansible-Install.sh || error_exit "Failed to install Ansible."
+  source /root/ProxmoxAutoADEnv/scripts/Ansible-Install.sh || error_exit "Failed to install Ansible."
 }
 
 # Function to install Packer and Terraform
 install_packer_terraform() {
   echo "Installing Packer and Terraform..."
-  source /root/GitProject/ProxmoxAutoADEnv/scripts/Install-Packer-Terraform.sh || error_exit "Failed to install Packer and Terraform."
+  source /root/ProxmoxAutoADEnv/scripts/Install-Packer-Terraform.sh || error_exit "Failed to install Packer and Terraform."
 }
 
 # Function to download Cloudbase-Init MSI
 download_cloudbase_init() {
   echo "Downloading Cloudbase-Init MSI..."
-  cd /root/GitProject/ProxmoxAutoADEnv/packer/proxmox/scripts/sysprep/
+  cd /root/ProxmoxAutoADEnv/packer/proxmox/scripts/sysprep/
   wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi || error_exit "Failed to download Cloudbase-Init MSI."
 }
 
@@ -66,13 +65,13 @@ EOF
 # Function to run build_proxmox_iso.sh script
 build_proxmox_iso() {
   echo "Running build_proxmox_iso.sh script..."
-  source /root/GitProject/ProxmoxAutoADEnv/packer/proxmox/build_proxmox_iso.sh || error_exit "Failed to build Proxmox ISO."
+  source /root/ProxmoxAutoADEnv/packer/proxmox/build_proxmox_iso.sh || error_exit "Failed to build Proxmox ISO."
 }
 
 # Function to SCP files to Proxmox server
 scp_files_to_proxmox() {
   echo "Copying ISO files to Proxmox server..."
-  scp /root/GitProject/ProxmoxAutoADEnv/packer/proxmox/iso/* root@192.168.10.20:/var/lib/vz/template/iso/ || error_exit "Failed to copy ISO files to Proxmox server."
+  scp /root/ProxmoxAutoADEnv/packer/proxmox/iso/* root@192.168.10.20:/var/lib/vz/template/iso/ || error_exit "Failed to copy ISO files to Proxmox server."
 }
 
 # Function to setup Proxmox user and roles
