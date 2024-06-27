@@ -25,13 +25,18 @@ create_venv() {
 # Function to install Ansible
 install_ansible() {
   echo "Installing Ansible..."
-  source /root/ProxmoxAutoADEnv/scripts/Ansible-Install.sh || error_exit "Failed to install Ansible."
+  UBUNTU_CODENAME=jammy
+  wget -O- "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=get&search=0x6125E2A8C77F2818FB7BD15B93C4A3FD7BB9C367" | sudo gpg --dearmor -o /usr/share/keyrings/ansible-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/ansible-archive-keyring.gpg] http://ppa.launchpad.net/ansible/ansible/ubuntu $UBUNTU_CODENAME main" | sudo tee /etc/apt/sources.list.d/ansible.list
+  sudo apt update && sudo apt install -y ansible || error_exit "Failed to install Ansible."
 }
 
 # Function to install Packer and Terraform
 install_packer_terraform() {
   echo "Installing Packer and Terraform..."
-  source /root/ProxmoxAutoADEnv/scripts/Install-Packer-Terraform.sh || error_exit "Failed to install Packer and Terraform."
+  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+  sudo apt update && sudo apt install -y packer terraform || error_exit "Failed to install Packer and Terraform."
 }
 
 # Function to download Cloudbase-Init MSI
@@ -72,7 +77,8 @@ EOF
 # Function to run build_proxmox_iso.sh script
 build_proxmox_iso() {
   echo "Running build_proxmox_iso.sh script..."
-  source /root/ProxmoxAutoADEnv/packer/proxmox/build_proxmox_iso.sh || error_exit "Failed to build Proxmox ISO."
+  cd /root/ProxmoxAutoADEnv/packer/proxmox || error_exit "Failed to navigate to the build_proxmox_iso.sh directory."
+  ./build_proxmox_iso.sh || error_exit "Failed to build Proxmox ISO."
 }
 
 # Function to SCP files to Proxmox server
