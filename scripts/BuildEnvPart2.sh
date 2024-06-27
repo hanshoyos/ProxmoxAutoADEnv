@@ -20,7 +20,7 @@ source /root/GitProject/ProxmoxAutoADEnv/venv/bin/activate
 source /root/GitProject/ProxmoxAutoADEnv/scripts/Ansible-Install.sh
 wait
 
-#what is this 
+#Dont need anymore since im using apt to install ansible.
 #python3 -m pip install --upgrade pip
 #python3 -m pip install ansible-core==2.12.6 pywinrm
 
