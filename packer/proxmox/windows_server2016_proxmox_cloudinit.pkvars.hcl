@@ -1,6 +1,6 @@
 winrm_username = "vagrant"
 winrm_password = "vagrant"
-vm_name = "WinServer2016-cloudinit-"
+vm_name = "WinServer2016-cloudinit"
 template_description = "Windows Server 2016 64-bit - build 14393 - template built with Packer - cloudinit - {{isotime \"2006-01-02 03:04:05\"}}"
 iso_file = "local:iso/windows_server_2016.iso"
 autounattend_iso = "./iso/Autounattend_winserver2016_cloudinit.iso"
