@@ -55,6 +55,7 @@ cd /var/lib/vz/template/iso/ || exit 1
 nohup wget -O virtio-win.iso https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso &
 nohup wget -O windows10.iso https://software-static.download.prss.microsoft.com/dbazure/988969d5-f34g-4e03-ac9d-1f9786c66750/19045.2006.220908-0225.22h2_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso &
 nohup wget -O windows_server_2019.iso https://software-static.download.prss.microsoft.com/dbazure/988969d5-f34g-4e03-ac9d-1f9786c66749/17763.3650.221105-1748.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso &
+nohup wget -O Ubuntu-22.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso &
 EOF
   # Wait for downloads to complete
   echo "Waiting for ISO downloads to complete..."
