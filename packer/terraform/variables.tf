@@ -1,43 +1,54 @@
 variable "proxmox_url" {
-  default = "https://192.168.10.20:8006/api2/json"
+  description = "The Proxmox API URL"
+  default     = "https://192.168.10.20:8006/api2/json"
 }
 
 variable "proxmox_username" {
-  default = "infra_as_code@pve"
+  description = "The Proxmox API username"
+  default     = "infra_as_code@pve"
 }
 
 variable "proxmox_password" {
-  default = "P@ssw0rd"
+  description = "The Proxmox API password"
+  default     = "P@ssw0rd"
 }
 
 variable "proxmox_node" {
-  default = "pve"
+  description = "The Proxmox node name"
+  default     = "pve"
 }
 
 variable "proxmox_pool" {
-  default = "Templates"
+  description = "The Proxmox pool name"
+  default     = "Templates"
 }
 
 variable "proxmox_vm_storage" {
-  default = "local-zfs"
+  description = "The Proxmox VM storage"
+  default     = "local-zfs"
 }
 
 variable "dc_template" {
-  default = "WinServer2019-cloudinit"
+  description = "The Proxmox template for the Domain Controller"
+  default     = "WinServer2019-cloudinit"
 }
 
 variable "win10_template" {
-  default = "Windows10-cloudinit"
+  description = "The Proxmox template for Windows 10 PCs"
+  default     = "Windows10-cloudinit"
 }
 
 variable "dc_ip" {
-  default = "192.168.10.200"
+  description = "The IP address for the Domain Controller"
+  default     = "192.168.10.200"
 }
 
 variable "win10_start_ip" {
-  default = "192.168.10.210"
+  description = "The starting IP address for Windows 10 PCs"
+  default     = "192.168.10.210"
 }
 
 variable "win10_count" {
-  default = 10
+  description = "The number of Windows 10 PCs to create"
+  default     = 10
 }
