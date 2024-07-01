@@ -7,7 +7,7 @@ domain_admin_password: SecurePass123
 
 win10_template: "Windows10TemplateName"
 dc_template: "WindowsServerTemplateName"
-proxmox_host: "proxmox.example.com"
-proxmox_user: "root@pam"
-proxmox_password: "ProxmoxPass"
+proxmox_host: "https://192.168.10.20:8006/api2/json"
+proxmox_user: "infra_as_code@pve"
+proxmox_password: "P@ssw0rd"
 proxmox_node: "pve"
