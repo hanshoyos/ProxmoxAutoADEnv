@@ -1,8 +1,0 @@
-- hosts: localhost
-  gather_facts: no
-  tasks:
-    - name: Deploy Domain Controller
-      include_tasks: deploy_dc.yml
-
-    - name: Deploy Windows 10 PCs
-      include_tasks: deploy_win10.yml
