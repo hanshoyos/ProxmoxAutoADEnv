@@ -18,7 +18,7 @@ update_system() {
 # Function to create and activate Python virtual environment
 create_venv() {
   echo "Creating and activating Python virtual environment..."
-  python3 -m venv /root/ProxmoxAutoADEnv/venv || error_exit "Failed to create Python virtual environment."
+  python3 -m venv ~/ProxmoxAutoADEnv/venv || error_exit "Failed to create Python virtual environment."
   echo "source /root/ProxmoxAutoADEnv/venv/bin/activate" >> ~/.bashrc
   source /root/ProxmoxAutoADEnv/venv/bin/activate || error_exit "Failed to activate Python virtual environment."
 }
@@ -43,7 +43,7 @@ install_packer_terraform() {
 # Function to download Cloudbase-Init MSI
 download_cloudbase_init() {
   echo "Downloading Cloudbase-Init MSI..."
-  cd /root/ProxmoxAutoADEnv/packer/proxmox/scripts/sysprep/
+  cd ~/ProxmoxAutoADEnv/packer/proxmox/WindowsOS/scripts/sysprep/
   wget https://cloudbase.it/downloads/CloudbaseInitSetup_Stable_x64.msi || error_exit "Failed to download Cloudbase-Init MSI."
 }
 
