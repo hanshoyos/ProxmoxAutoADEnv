@@ -1,4 +1,4 @@
- variable "proxmox_url" {
+variable "proxmox_url" {
   description = "The Proxmox API URL"
   default     = "https://192.168.10.20:8006/api2/json"
 }
