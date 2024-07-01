@@ -25,13 +25,12 @@ resource "proxmox_vm_qemu" "dc" {
   memory      = 4096
   disk {
     size = "32G"
+    type = "scsi"
+    storage = var.proxmox_vm_storage
   }
   network {
     model  = "virtio"
     bridge = "vmbr0"
-    ip     = var.dc_ip
   }
-  cloudinit {
-    ipconfig0 = "ip=${var.dc_ip}/24,gw=192.168.10.1"
-  }
+  ipconfig0 = "ip=${var.dc_ip}/24,gw=192.168.10.1"
 }
