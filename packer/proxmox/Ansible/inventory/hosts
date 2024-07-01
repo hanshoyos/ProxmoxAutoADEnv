@@ -1,0 +1,9 @@
+[dc]
+dc1 ansible_host=192.168.10.200
+
+[win10]
+pc[10:210] ansible_host=192.168.10.[211:220]
+
+[windows:children]
+dc
+win10
