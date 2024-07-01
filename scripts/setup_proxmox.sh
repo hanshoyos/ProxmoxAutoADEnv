@@ -79,14 +79,14 @@ EOF
 # Function to run build_proxmox_iso.sh script
 build_proxmox_iso() {
   echo "Running build_proxmox_iso.sh script..."
-  cd /root/ProxmoxAutoADEnv/packer/proxmox || error_exit "Failed to navigate to the build_proxmox_iso.sh directory."
+  cd ~/ProxmoxAutoADEnv/packer/proxmox/WindowsOS || error_exit "Failed to navigate to the build_proxmox_iso.sh directory."
   ./build_proxmox_iso.sh || error_exit "Failed to build Proxmox ISO."
 }
 
 # Function to SCP files to Proxmox server
 scp_files_to_proxmox() {
   echo "Copying ISO files to Proxmox server..."
-  scp /root/ProxmoxAutoADEnv/packer/proxmox/iso/* root@192.168.10.20:/var/lib/vz/template/iso/ || error_exit "Failed to copy ISO files to Proxmox server."
+  scp /root/ProxmoxAutoADEnv/packer/proxmox/WindowsOS/iso/* root@192.168.10.20:/var/lib/vz/template/iso/ || error_exit "Failed to copy ISO files to Proxmox server."
 }
 
 # Function to setup Proxmox user and roles
