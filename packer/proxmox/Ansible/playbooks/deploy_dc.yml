@@ -1,0 +1,52 @@
+- name: Deploy Domain Controller
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create Domain Controller VM in Proxmox
+      community.general.proxmox_kvm:
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_password }}"
+        api_host: "{{ proxmox_host }}"
+        node: "{{ proxmox_node }}"
+        vmid: 100
+        name: dc1
+        pool: "windows_vms"
+        clone: "{{ dc_template }}"
+        full_clone: yes
+        state: present
+        timeout: 600
+
+    - name: Start Domain Controller VM
+      community.general.proxmox_kvm:
+        api_user: "{{ proxmox_user }}"
+        api_password: "{{ proxmox_password }}"
+        api_host: "{{ proxmox_host }}"
+        node: "{{ proxmox_node }}"
+        vmid: 100
+        state: started
+
+- name: Configure Domain Controller
+  hosts: dc
+  tasks:
+    - name: Rename server and set static IP
+      win_shell: |
+        Rename-Computer -NewName "DC1" -Restart
+        New-NetIPAddress -InterfaceAlias "Ethernet0" -IPAddress 192.168.1.10 -PrefixLength 24 -DefaultGateway 192.168.1.1
+        Set-DnsClientServerAddress -InterfaceAlias "Ethernet0" -ServerAddresses ("192.168.1.10")
+
+    - name: Install Active Directory Domain Services
+      win_feature:
+        name: AD-Domain-Services
+        include_management_tools: yes
+
+    - name: Promote to Domain Controller
+      win_shell: |
+        Install-ADDSForest `
+          -DomainName "{{ domain_name }}" `
+          -InstallDNS `
+          -SafeModeAdministratorPassword (ConvertTo-SecureString "{{ domain_admin_password }}" -AsPlainText -Force) `
+          -Force
+      register: dc_install
+    - name: Reboot after DC install
+      win_reboot:
+      when: dc_install.reboot_required
