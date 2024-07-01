@@ -19,13 +19,12 @@ resource "proxmox_vm_qemu" "dc" {
   target_node = var.proxmox_node
   clone       = var.dc_template
   pool        = var.proxmox_pool
-  storage     = var.proxmox_vm_storage
   cores       = 2
   sockets     = 1
   memory      = 4096
   disk {
-    size = "32G"
-    type = "scsi"
+    size    = "32G"
+    type    = "scsi"
     storage = var.proxmox_vm_storage
   }
   network {
