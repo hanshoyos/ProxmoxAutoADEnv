@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    proxmox = {
+      source = "Telmate/proxmox"
+      version = "2.9.11" # or the latest version available
+    }
+  }
+}
+
 provider "proxmox" {
   pm_api_url      = var.proxmox_url
   pm_user         = var.proxmox_username
