@@ -1,0 +1,13 @@
+ansible_connection: winrm
+ansible_user: Administrator
+ansible_password: Password123
+
+domain_name: hanstechhub.local
+domain_admin_password: SecurePass123
+
+win10_template: "Windows10TemplateName"
+dc_template: "WindowsServerTemplateName"
+proxmox_host: "proxmox.example.com"
+proxmox_user: "root@pam"
+proxmox_password: "ProxmoxPass"
+proxmox_node: "pve"
