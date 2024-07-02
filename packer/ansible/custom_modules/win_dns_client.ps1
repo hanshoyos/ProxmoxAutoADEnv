@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 param (
     [string[]]$adapter_names,
     [string[]]$ipv4_addresses
