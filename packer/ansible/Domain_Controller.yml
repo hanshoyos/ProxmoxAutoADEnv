@@ -4,16 +4,16 @@
   gather_facts: no
   tasks:
     - name: Rename server
-      custom_modules.win_hostname:
+      win_hostname:
         name: "{{ inventory_hostname }}"
       register: rename
 
     - name: Reboot after rename
-      custom_modules.win_reboot:
-      when: rename.reboot_required
+      win_reboot:
+        when: rename.reboot_required
 
-    - name: Install Active Directory and DNS Server Role
-      custom_modules.win_feature:
+    - name: Installing Active Directory and DNS Server Role
+      win_feature:
         name:
           - AD-Domain-Services
           - DNS
@@ -23,44 +23,30 @@
       register: result
 
     - name: Change Administrator password
-      custom_modules.win_user:
+      win_user:
         name: Administrator
         password: "{{ domain_admin_password }}"
 
     - name: Create domain
-      custom_modules.win_domain:
+      win_domain:
         dns_domain_name: "{{ domain_name }}"
         domain_netbios_name: "{{ domain_short }}"
         safe_mode_password: "{{ safe_mode_pass }}"
         reboot: true
 
-    - name: Set internal DNS server
-      custom_modules.win_dns_client:
+    - name: Set internal DNS server 
+      win_dns_client:
         adapter_names: '*'
         ipv4_addresses:
-        - '127.0.0.1'
+          - '127.0.0.1'
 
     - name: Configure DNS forwarders
-      custom_modules.win_powershell:
+      win_powershell:
         script: |
           Set-DNSServerForwarder -IPAddress {{ dns_forwarders }}
 
     - name: Allow RDP to specific users
-      custom_modules.win_user_right:
+      win_user_right:
         name: SeRemoteInteractiveLogonRight
         users:
-        - Administrators
-
-    - name: Add user accounts with misconfigurations
-      custom_modules.win_user:
-        name: '{{ first_user }}'
-        firstname: Test
-        surname: Thandelete
-        password: '{{ first_user_password }}'
-        state: present
-        domain_username: Administrator
-        domain_password: '{{ domain_admin_password }}'
-        groups:
-          set:
-          - Domain Users
-          - Remote Desktop Users
+          - Administrators
