@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 param (
     [string]$dns_domain_name,
     [string]$domain_netbios_name,
