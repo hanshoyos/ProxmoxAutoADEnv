@@ -1,0 +1,12 @@
+domain_name: example.local
+domain_short: EXAMPLE
+domain_admin_password: P@ssw0rd
+safe_mode_pass: SafeModeP@ssw0rd
+dns_forwarders: 8.8.8.8
+first_user: jacktest
+first_user_password: TestP@ssw0rd
+web_admin: webadmin
+web_admin_password: WebP@ssw0rd
+server_admin: jeffadmin
+server_admin_password: FsP@ssw0rd
+ca_name: MyEnterpriseRootCA
