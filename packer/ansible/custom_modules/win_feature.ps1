@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 param (
     [string[]]$name,
     [bool]$include_management_tools = $false,
