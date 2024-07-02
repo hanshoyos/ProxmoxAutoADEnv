@@ -4,16 +4,16 @@
   gather_facts: no
   tasks:
     - name: Rename server
-      win_hostname:
+      custom_modules.win_hostname:
         name: "{{ inventory_hostname }}"
       register: rename
 
     - name: Reboot after rename
-      win_reboot:
+      custom_modules.win_reboot:
       when: rename.reboot_required
 
     - name: Install Active Directory and DNS Server Role
-      win_feature:
+      custom_modules.win_feature:
         name:
           - AD-Domain-Services
           - DNS
@@ -23,50 +23,44 @@
       register: result
 
     - name: Change Administrator password
-      win_user:
+      custom_modules.win_user:
         name: Administrator
         password: "{{ domain_admin_password }}"
 
     - name: Create domain
-      community.windows.win_domain:
+      custom_modules.win_domain:
         dns_domain_name: "{{ domain_name }}"
         domain_netbios_name: "{{ domain_short }}"
         safe_mode_password: "{{ safe_mode_pass }}"
         reboot: true
 
     - name: Set internal DNS server
-      win_dns_client:
+      custom_modules.win_dns_client:
         adapter_names: '*'
         ipv4_addresses:
         - '127.0.0.1'
 
     - name: Configure DNS forwarders
-      win_powershell:
+      custom_modules.win_powershell:
         script: |
           Set-DNSServerForwarder -IPAddress {{ dns_forwarders }}
 
     - name: Allow RDP to specific users
-      win_user_right:
+      custom_modules.win_user_right:
         name: SeRemoteInteractiveLogonRight
         users:
         - Administrators
 
     - name: Add user accounts with misconfigurations
-      win_user:
-        name: '{{ item.name }}'
-        firstname: '{{ item.firstname }}'
-        surname: '{{ item.surname }}'
-        password: '{{ item.password }}'
+      custom_modules.win_user:
+        name: '{{ first_user }}'
+        firstname: Test
+        surname: Thandelete
+        password: '{{ first_user_password }}'
         state: present
         domain_username: Administrator
         domain_password: '{{ domain_admin_password }}'
-        groups: '{{ item.groups }}'
-      with_items:
-        - { name: '{{ first_user }}', firstname: 'Test', surname: 'Thandelete', password: '{{ first_user_password }}', groups: ['Domain Users', 'Remote Desktop Users'] }
-        - { name: '{{ web_admin }}', firstname: 'WebServer', surname: 'Administrator', password: '{{ web_admin_password }}', groups: ['Domain Users', 'Remote Desktop Users'] }
-        - { name: '{{ server_admin }}', firstname: 'FileSystem', surname: 'Administrator', password: '{{ server_admin_password }}', groups: ['Domain Users', 'Remote Desktop Users'] }
-
-    - name: Set autologon for specific user
-      community.windows.win_auto_logon:
-        username: '{{ domain_admin_login }}'
-        password: '{{ domain_admin_password }}'
+        groups:
+          set:
+          - Domain Users
+          - Remote Desktop Users
