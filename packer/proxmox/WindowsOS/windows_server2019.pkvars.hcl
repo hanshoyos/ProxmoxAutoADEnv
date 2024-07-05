@@ -1,6 +1,6 @@
 winrm_username        = "vagrant"
 winrm_password        = "vagrant"
-vm_name               = "WinServer2019-cloudinit"
+vm_name               = "WinServer-2019"
 template_description  = "Windows Server 2019 64-bit - build 17763.737.190906-2324 - template built with Packer - cloudinit - {{isotime \"2006-01-02 03:04:05\"}}"
 iso_file              = "local:iso/windows_server_2019.iso"
 autounattend_iso      = "./iso/Autounattend_winserver2019_cloudinit.iso"
