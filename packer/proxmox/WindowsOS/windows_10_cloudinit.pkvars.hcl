@@ -1,6 +1,6 @@
 winrm_username        = "vagrant"
 winrm_password        = "vagrant"
-vm_name               = "Windows10-cloudinit"
+vm_name               = "Windows10"
 template_description  = "Windows 10 - 22h2 - 64-bit - template built with Packer - {{isotime \"2006-01-02 03:04:05\"}}"
 iso_file              = "local:iso/windows10.iso"
 autounattend_iso      = "./iso/Autounattend_windows10_cloudinit.iso"
